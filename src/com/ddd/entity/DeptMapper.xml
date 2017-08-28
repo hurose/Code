@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.ddd.dao.DeptDao" >
+  <resultMap id="BaseResultMap" type="Dept" >
+    <id column="deptid" property="deptid" jdbcType="INTEGER" />
+    <result column="deptname" property="deptname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    deptid, deptname
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" useCache="true" >
+    select 
+    <include refid="Base_Column_List" />
+    from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </select>
+  
+  
+   <select id="selectAll" resultType="Dept" useCache="true" >
+    select * from dept
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dept
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ddd.entity.Dept" useGeneratedKeys="true" keyProperty="deptid" >
+    insert into dept (deptname)
+    values (#{deptname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="Dept" useGeneratedKeys="true" keyProperty="deptid" >
+    insert into dept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      deptname,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{deptname,jdbcType=VARCHAR},
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddd.entity.Dept" >
+    update dept
+    <set >
+      <if test="deptname != null" >
+        deptname = #{deptname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddd.entity.Dept" >
+    update dept
+    set deptname = #{deptname,jdbcType=VARCHAR}
+    where deptid = #{deptid,jdbcType=INTEGER}
+  </update>
+</mapper>
